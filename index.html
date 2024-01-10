@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D 5e Spellbook</title>
+</head>
+<body>
+
+    <div id="output"></div>
+
+    <form id="listSpellsForm">
+        <label for="listSpellsBtn">List all spells:</label>
+        <button type="button" id="listSpellsBtn" onclick="listAllSpells()">List Spells</button>
+    </form>
+
+    <form id="searchSpellForm">
+        <label for="spellNameInput">Search for a spell by name:</label>
+        <input type="text" id="spellNameInput" name="spellNameInput">
+        <button type="button" onclick="searchForSpell()">Search</button>
+    </form>
+
+    <form id="exitForm">
+        <label for="exitBtn">Exit:</label>
+        <button type="button" id="exitBtn" onclick="exitProgram()">Exit</button>
+    </form>
+
+    <form id="descriptionForm">
+        <label for="spellIndexInput">Enter spell index for description:</label>
+        <input type="text" id="spellIndexInput" name="spellIndexInput">
+        <button type="button" onclick="getSpellDescription()">Get Description</button>
+    </form>
+
+    <script>
+        let spells = [];
+
+        function displaySpell(spellData) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML += `<p>Name: ${spellData.name}</p>`;
+            outputDiv.innerHTML += `<p>Index: ${spellData.index}</p>`;
+            outputDiv.innerHTML += `<p>URL: ${spellData.url}</p>`;
+        }
+
+        function getDescription(spellDescUrl) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML += `<p>This is the spell desc URL: ${spellDescUrl}</p>`;
+            const baseUrl = "https://www.dnd5eapi.co";
+            outputDiv.innerHTML += `<p>This should be the base URL: ${baseUrl}</p>`;
+            const fullUrl = baseUrl + spellDescUrl + "/";
+            const headers = { 'Accept': 'application/json' };
+
+            outputDiv.innerHTML += `<p>This should be the full URL: ${fullUrl}</p>`;
+            fetch(fullUrl, { headers: headers })
+                .then(response => response.json())
+                .then(spellData => {
+                    const description = spellData.desc;
+                    const level = spellData.level;
+                    outputDiv.innerHTML += `<p>Spell description: ${description}</p>`;
+                    outputDiv.innerHTML += `<p>This is the spell level: ${level}</p>`;
+                })
+                .catch(error => console.error("Error fetching spell description:", error));
+        }
+
+        function listAllSpells() {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML += "<p>List of Spells:</p>";
+            spells.forEach(displaySpell);
+        }
+
+        function searchForSpell() {
+            const spellNameInput = document.getElementById('spellNameInput').value.trim().toLowerCase();
+            const outputDiv = document.getElementById('output');
+            const matchingSpells = spells.filter(spell => spell.name.toLowerCase().includes(spellNameInput));
+
+            outputDiv.innerHTML += "<p>Matching Spells:</p>";
+            let numberOfSpells = 0;
+            matchingSpells.forEach((spell, index) => {
+                outputDiv.innerHTML += `${index + 1}. `;
+                displaySpell(spell);
+                numberOfSpells++;
+            });
+            outputDiv.innerHTML += `<p>This is the number of spells matching the search term: ${numberOfSpells}</p>`;
+        }
+
+        function exitProgram() {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML += "<p>Goodbye!</p>";
+        }
+
+        function getSpellDescription() {
+            const spellIndexInput = document.getElementById('spellIndexInput').value.trim();
+            const outputDiv = document.getElementById('output');
+            
+            const choice2 = parseInt(spellIndexInput);
+
+            if (!isNaN(choice2) && choice2 >= 1 && choice2 <= spells.length) {
+                const selectedSpell = spells[choice2 - 1];
+                getDescription(selectedSpell.url);
+            } else {
+                outputDiv.innerHTML += "<p>Invalid spell index. Please enter a valid index.</p>";
+            }
+        }
+
+        function main() {
+            const url = "https://www.dnd5eapi.co/api/spells";
+            const headers = { 'Accept': 'application/json' };
+
+            fetch(url, { headers: headers })
+                .then(response => response.json())
+                .then(spellsData => {
+                    spells = spellsData.results;
+                    const outputDiv = document.getElementById('output');
+                    outputDiv.innerHTML += "<p>Welcome to the D&D 5e Spellbook!</p>";
+                    outputDiv.innerHTML += `<p>Total Spells: ${spellsData.count}</p><br/>`;
+                })
+                .catch(error => console.error("Error fetching spells:", error));
+        }
+
+        main();
+    </script>
+
+</body>
+</html>
