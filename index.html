@@ -33,31 +33,34 @@
     <div class = "container"> 
 
 
-    <div id="output"></div>
+        
+        <form id="listSpellsForm">
+            <label for="listSpellsBtn">List all spells:</label>
+            <button type="button" id="listSpellsBtn" onclick="listAllSpells()">List Spells</button>
+        </form>
+        
+        <form id="searchSpellForm">
+            <label for="spellNameInput">Search for a spell by name:</label>
+            <input type="text" id="spellNameInput" name="spellNameInput">
+            <button type="button" onclick="searchForSpell()">Search</button>
+        </form>
+        
+        <form id="exitForm">
+            <label for="exitBtn">Exit:</label>
+            <button type="button" id="exitBtn" onclick="exitProgram()">Exit</button>
+        </form>
+        
+        <form id="descriptionForm">
+            <label for="spellIndexInput">Enter the spell number for description:</label>
+            <input type="text" id="spellIndexInput" name="spellIndexInput">
+            <button type="button" onclick="getSpellDescription()">Get Description</button>
+        </form>
 
-    <form id="listSpellsForm">
-        <label for="listSpellsBtn">List all spells:</label>
-        <button type="button" id="listSpellsBtn" onclick="listAllSpells()">List Spells</button>
-    </form>
+        <div id="search_output"></div>
+        <div id="description_output"></div>
+        <div id="output"></div>
 
-    <form id="searchSpellForm">
-        <label for="spellNameInput">Search for a spell by name:</label>
-        <input type="text" id="spellNameInput" name="spellNameInput">
-        <button type="button" onclick="searchForSpell()">Search</button>
-    </form>
-
-    <form id="exitForm">
-        <label for="exitBtn">Exit:</label>
-        <button type="button" id="exitBtn" onclick="exitProgram()">Exit</button>
-    </form>
-
-    <form id="descriptionForm">
-        <label for="spellIndexInput">Enter the spell number for description:</label>
-        <input type="text" id="spellIndexInput" name="spellIndexInput">
-        <button type="button" onclick="getSpellDescription()">Get Description</button>
-    </form>
-
-    <script>
+        <script>
         let spells = [];
 
         function displaySpell(spellData) {
@@ -68,7 +71,7 @@
         }
 
         function getDescription(spellDescUrl) {
-            const outputDiv = document.getElementById('output');
+            const outputDiv = document.getElementById('description_output');
             outputDiv.innerHTML += `<p>This is the spell desc URL: ${spellDescUrl}</p>`;
             const baseUrl = "https://www.dnd5eapi.co";
             outputDiv.innerHTML += `<p>This should be the base URL: ${baseUrl}</p>`;
@@ -95,7 +98,7 @@
 
         function searchForSpell() {
             const spellNameInput = document.getElementById('spellNameInput').value.trim().toLowerCase();
-            const outputDiv = document.getElementById('output');
+            const outputDiv = document.getElementById('search_output');
             const matchingSpells = spells.filter(spell => spell.name.toLowerCase().includes(spellNameInput));
 
             outputDiv.innerHTML += "<p>Matching Spells:</p>";
