@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- You can link your CSS files here -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <!-- You can include any scripts here -->
+    <!-- <script src="script.js"></script> -->
+</head>
+
+<body>
+    <!-- Your content goes here -->
+    <a href="index.html">Home</a>
+    <h1>Hello, World!</h1>
+    <!-- You can include your JavaScript at the bottom of the body for better performance -->
+    <!-- <script src="script.js"></script> -->
+    <button id="d4">
+        d4
+    </button>
+    <button id="d6">
+        d6
+    </button>
+    <button id="d8">
+        d8
+    </button>
+    <button id="d10">
+        d10
+    </button>
+    <button id="d12">
+        d12
+    </button>
+    <button id="d20">
+        d20
+    </button>
+    <button id="d100">
+        d100
+    </button>
+
+
+    <div id="d4Result"></div>
+    <div id="d6Result"></div>
+    <div id="d8Result"></div>
+    <div id="d10Result"></div>
+    <div id="d12Result"></div>
+    <div id="d20Result"></div>
+    <div id="d100Result"></div>
+
+    <script>
+        document.getElementById("d4").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 4) + 1;
+            document.getElementById("d4Result").innerHTML = 'Your d4 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d6").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 6) + 1;
+            document.getElementById("d6Result").innerHTML = 'Your d6 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d8").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 8) + 1;
+            document.getElementById("d8Result").innerHTML = 'Your d8 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d10").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 10) + 1;
+            document.getElementById("d10Result").innerHTML = 'Your d10 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d12").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 12) + 1;
+            document.getElementById("d12Result").innerHTML = 'Your d12 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d20").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 20) + 1;
+            document.getElementById("d20Result").innerHTML = 'Your d20 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d100").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 100) + 1;
+            document.getElementById("d100Result").innerHTML = 'Your d100 rolled a ' + diceRoll + '!';
+        });
+    </script>
+</body>
+
+</html>
