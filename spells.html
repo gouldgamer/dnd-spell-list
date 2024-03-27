@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>D&D 5e Spellbook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: medium;
+        }
+
+        .bg-image {
+            /* The image used */
+            background-image: url("bg.jpg"); 
+
+            /* Full height */
+            height: 100%;
+            /* Background image does not scroll */
+            background-attachment: fixed;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            /* Positioning and styling for the text container */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: left;
+            font-size: 1.5em;
+
+
+            /* Black background with opacity */
+            padding: 10px;
+            margin-top: 200px;
+            border-radius: 10px;
+            max-height: fit-content;
+            /* Maximum height of the container */
+            /* overflow: auto;
+            /* Adds scrollbars when content exceeds max-height */
+            /* width: auto; */
+            /* Set a fixed width, or adjust as needed */
+        }
+
+        header {
+            color: white;
+            text-align: center;
+            /* Making the background slightly transparent */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Black background with opacity */
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #spellDetails {
+            /* Making the background slightly transparent */
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+            height: 20em;
+            width: fit-content;
+            padding: auto;
+
+        }
+
+        .col-md-4 {
+            /* Making the background slightly transparent */
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;  
+            height: 500px;   
+            width: fit-content;
+        }
+
+        p {
+
+            margin: 20px;
+        }
+    </style>  
+
+</head>
+
+<body class="bg-image">
+    <a href="dice.html"> Dice roll Page</a>
+    <a href="bonusesV3.html">Modifiers</a>
+    <header>
+        <h1>Welcome to the D&D 5e Spellbook! <h1>
+
+                <div>
+                    <!-- <button id="listSpells">List all spells</button> -->
+                    <!-- <button id="searchSpell">Search for a spell by name</button> -->
+                    <div id="searchSection">
+
+                        <button id="findSpellByName">Find Spell</button>
+                        <input type="text" id="spellName" placeholder="Enter the spell name">
+
+                    </div>
+                </div>
+    </header>
+    <div class="container">
+
+        <div id="totalSpells"></div>
+
+
+        <div class="row">
+            <!-- Left column for spell list -->
+            <div class="col-md-4">
+                <h3>Search Results</h3>
+                <div id="spellNameSearchResult"></div>
+                <h2>Spell List</h2>
+
+                <div id="spellList">
+
+                    <!-- Spell list will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Right column for spell details -->
+            <div class="col-md-8">
+
+                <h2>Spell Details</h2>
+                <!-- Add the Play button -->
+                <button id="playButton">Speak Text Aloud</button>
+
+                <!-- Add the Stop button -->
+                <button id="stopButton">Stop Audio</button>
+
+                <div id="spellDetails">
+                    <!-- Spell details will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // document.getElementById('listSpells').addEventListener('click', listAllSpells);
+            // document.getElementById('searchSpell').addEventListener('click', showSearch);
+            document.getElementById('findSpellByName').addEventListener('click', findSpellByName);
+            // Add event listener for the Play button
+            document.getElementById('playButton').addEventListener('click', playSpellDetails);
+
+            // Add event listener for the Stop button
+            document.getElementById('stopButton').addEventListener('click', stopSpeech);
+            // Fetch the total number of spells on initial load
+            fetch(baseApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalSpells').innerText = `Total Spells: ${data.count}`;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        const baseApiUrl = "https://www.dnd5eapi.co/api/spells";
+        let spells = [];
+        let searchResults = []; // Array for search results
+
+        function fetchSpellDetails(url) {
+            const fullUrl = `https://www.dnd5eapi.co${url}`;  // Ensure full URL is constructed
+            return fetch(fullUrl)
+                .then(response => response.json())
+                .catch(error => console.error('Error:', error));
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.log('Your browser does not support speech synthesis.');
+            }
+        }
+
+        function listAllSpells() {
+            fetch(baseApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    spells = data.results;
+                    let spellListHtml = '<ul>';
+                    spells.forEach((spell, index) => {
+                        spellListHtml += `<li>${index + 1}. ${spell.name}</li>`;
+                    });
+                    spellListHtml += '</ul>';
+                    document.getElementById('spellList').innerHTML = spellListHtml;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        listAllSpells()  // instead of a button we can just list spells on page load.
+
+
+        function showSearch() {
+            document.getElementById('searchSection').style.display = 'block';
+        }
+
+        function findSpellByName() {
+            const spellName = document.getElementById('spellName').value.toLowerCase();
+            searchResults = spells.filter(spell => spell.name.toLowerCase().includes(spellName));
+            if (spellName === '') {
+                console.log("Please enter a spell name.");
+                document.getElementById('spellNameSearchResult').innerHTML = '<p>Please enter a spell name.</p>';
+                return;
+            }
+            if (searchResults.length === 0) {
+                console.log("No matching spells found.");
+                document.getElementById('spellNameSearchResult').innerHTML = '<p>No matching spells found.</p>';
+                return;
+            }
+
+            let spellListHtml = '<ul>';
+            searchResults.forEach((spell, index) => {
+                spellListHtml += `<li>${index + 1}. ${spell.name} - <button onclick="viewSpellDetails('${spell.url}')">View Details</button></li>`;
+            });
+            spellListHtml += '</ul>';
+            document.getElementById('spellNameSearchResult').innerHTML = spellListHtml;
+        }
+
+
+        function viewSpellDetails(url) {
+            fetchSpellDetails(url)
+                .then(spellDetails => {
+                    let detailsHtml = `<h2>${spellDetails.name}</h2><p>${spellDetails.desc.join(' ')}</p>`;
+                    document.getElementById('spellDetails').innerHTML = detailsHtml;
+                });
+        }
+
+        function playSpellDetails() {
+            // Get the text you want to speek
+            const textToSpeak = document.getElementById('spellDetails').innerText;
+            speak(textToSpeak);
+        }
+        function stopSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stops speech synthesis
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Character Sheet with Roll Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        #characterSheet {
+            margin-top: 20px;
+        }
+        .attribute {
+            margin-bottom: 10px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .attribute input[type="number"] {
+            margin-right: 10px;
+            width: 50px;
+        }
+        .attribute select {
+            margin-right: 10px;
+        }
+        .rollResult {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>D&D Character Attributes Roll Bonuses</h1>
+    <div id="characterSheet"></div>
+    <button id="resetStats">Reset Stats</button>
+
+    <script>
+
+        // this rounding code test.#characterSheet
+        let dicimalNumber = 0.5;
+        let roundNum = Math.floor(dicimalNumber);
+        console.log()
+    document.addEventListener('DOMContentLoaded', function() {
+        const originalCharacterData = {
+            "character": {
+                "attributes": {
+                    "strength": 16,
+                    "dexterity": 12,
+                    "constitution": 14,
+                    "intelligence": 10,
+                    "wisdom": 13,
+                    "charisma": 8
+                }
+            }
+        };
+
+        let characterData = JSON.parse(JSON.stringify(originalCharacterData));
+
+        function resetStats() {
+            characterData = JSON.parse(JSON.stringify(originalCharacterData));
+            displayCharacter(characterData.character);
+        }
+
+        function displayCharacter(character) {
+            const container = document.getElementById('characterSheet');
+            container.innerHTML = '';
+
+            for (const [key, value] of Object.entries(character.attributes)) {
+                const attributeContainer = document.createElement('div');
+                attributeContainer.classList.add('attribute');
+
+                const attributeName = document.createElement('span');
+                attributeName.textContent = `${key.charAt(0).toUpperCase() + key.slice(1)}:`;
+                attributeContainer.appendChild(attributeName);
+
+                const attributeInput = document.createElement('input');
+                attributeInput.setAttribute('type', 'number');
+                attributeInput.value = value;
+                attributeContainer.appendChild(attributeInput);
+                
+               // const diced20 = document.createElement('span');
+                //diceInfo.textcontent = 'Using d20'
+
+                // attributeContainer.appendChild(diceInfo)
+                // Dropdown for selecting dice
+                const diceSelector = document.createElement('select');
+                const diceOptions = [20];
+                diceOptions.forEach(sides => {
+                    option.value = sides;
+                    option.textContent = `d${sides}`;
+                    diceSelector.appendChild(option);
+                });
+                attributeContainer.appendChild(diceSelector);
+
+                // Span to display roll result
+                // const rollResultSpan = document.createElement('span');
+                // rollResultSpan.classList.add('rollResult');
+
+                // Button to roll dice for this attribute
+                const rollButton = document.createElement('button');
+                rollButton.textContent = 'Roll';
+                rollButton.addEventListener('click', () => rollForAttribute(diceSelector.value, rollResultSpan));
+                attributeContainer.appendChild(rollButton);
+
+                attributeContainer.appendChild(rollResultSpan);
+                container.appendChild(attributeContainer);
+            }
+        }
+
+        function rollForAttribute(diceSides, resultDisplay) {
+            const rollResult = rollDice(parseInt(diceSides, 10));
+            resultDisplay.textContent = `(Rolled: +${rollResult})`;
+        }
+
+        function rollDice(sides) {
+            return Math.floor(Math.random() * sides) + 1;
+        }
+
+        document.getElementById('resetStats').addEventListener('click', resetStats);
+
+        displayCharacter(characterData.character);
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Processor and Dice Roller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .result {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <a href="spells.html">Home</a>
+    <a href="dice.html"> Dice roll Page</a>
+    <audio id="diceRollSound" src="dice-sound.mp3"></audio>
+    <div class="container">
+        <!-- Label input field -->
+        <label for="inputLabel">Label:</label>
+        <input type="text" id="inputLabel" name="inputLabel"><br><br>
+
+        <!-- Number input field -->
+        <label for="inputNumber">Number:</label>
+        <input type="number" id="inputNumber" name="inputNumber"><br><br>
+
+        <!-- Button to perform the "create modifier" operation -->
+        <button onclick="modifier()">Create Modifier</button>
+        <div id="result" class="result"></div>
+
+        <!-- Button to roll a 20-sided die -->
+        <button onclick="rollDice()">Roll D20</button>
+        <div id="diceResult" class="result"></div>
+
+        <!-- Button to calculate the total of the previous two results -->
+        <button onclick="total()">Total</button>
+        <div id="total" class="result"></div>
+
+    </div>
+<script>
+        // Function to subtract 10 from a number, divide by 2, and round down the result
+
+        function modifier() { 
+            let number = document.getElementById("inputNumber").value;
+            let result = (parseInt(number) - 10)/2;
+            let roundedResult = Math.floor(result);
+
+            document.getElementById("result").innerHTML = "= " + roundedResult;
+        }
+        // Function to roll a 20- sided dice
+        function rollDice(){
+            var audio = new Audio('dice-sound.mp3');
+            var diceRoll = Math.floor(Math.random() * 20) + 1;
+            audio.play();
+            document.getElementById("diceResult").innerHTML = "= " + diceRoll;
+        }
+        
+        // function playDiceSound() {
+        //     const audio = document.getElementById('diceRollSound');
+        //     audio.currentTime = 0;
+        //     audio.play();
+        // }
+
+        function total(){
+            let modifierResult = document.getElementById("result").textContent.split('= ')[1];
+            let diceResult = document.getElementById("diceResult").textContent.split("= ")[1];
+            let finalResult = parseInt(modifierResult) + parseInt(diceResult);
+            document.getElementById("total").innerHTML = "= " + finalResult;
+        }
+
+       
+        
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

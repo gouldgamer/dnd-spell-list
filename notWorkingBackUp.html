@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            /* Changed from 100vh to auto to accommodate wrapping */
+            min-height: 100vh;
+            /* Ensure it takes at least the height of the viewport */
+            flex-direction: row;
+            /* Changed from column to row */
+            flex-wrap: wrap;
+            /* Allow the items to wrap as needed */
+            padding: 20px;
+            /* Add some padding to ensure there's space around the items */
+            gap: 20px;
+            /* Maintain gap between items */
+            background-color: #f0f0f0;
+            background-image: url('dice-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <!-- You can link your CSS files here -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <!-- You can include any scripts here -->
+    <!-- <script src="script.js"></script> -->
+<!-- </head> --> -->
+<head>
+    <title>D&D 5e Spellbook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        body,
+        html {
+            color: rgb(255, 255, 255);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            /* Changed from 100vh to auto to accommodate wrapping */
+            min-height: 100vh;
+            /* Ensure it takes at least the height of the viewport */
+            flex-direction: row;
+            /* Changed from column to row */
+            flex-wrap: wrap;
+            /* Allow the items to wrap as needed */
+            padding: 20px;
+            /* Add some padding to ensure there's space around the items */
+            gap: 20px;
+            /* Maintain gap between items */
+            background-color: #f0f0f0;
+            background-image: url('dice-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: medium;
+        }
+
+        /* .bg-image {
+            /* The image used */
+            /* background-image: url("bg.jpg");  */
+
+            /* Full height */
+            /* height: 100%; */
+            /* Background image does not scroll */
+            /* background-attachment: fixed; */
+
+            /* Center and scale the image nicely */
+            /* background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover; */
+        /* } */ */
+
+        .container {
+            /* Positioning and styling for the text container */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: left;
+            font-size: 1.5em;
+
+
+            /* Black background with opacity */
+            padding: 10px;
+            margin-top: 200px;
+            border-radius: 10px;
+            max-height: fit-content;
+            /* Maximum height of the container */
+            /* overflow: auto;
+            /* Adds scrollbars when content exceeds max-height */
+            /* width: auto; */
+            /* Set a fixed width, or adjust as needed */
+        }
+
+        header {
+            color: white;
+            text-align: center;
+            /* Making the background slightly transparent */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Black background with opacity */
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #spellDetails {
+            /* Making the background slightly transparent */
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+            height: 20em;
+            width: fit-content;
+            padding: auto;
+
+        }
+
+        .col-md-4 {
+            /* Making the background slightly transparent */
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;  
+            height: 500px;   
+            width: fit-content;
+        }
+
+        p {
+
+            margin: 20px;
+        }
+    </style>  
+
+</head>
+<body>
+    <!-- Your content goes here -->
+    <a href="spells.html">Home</a>
+    <a href="bonusesV3.html">Modifiers</a>
+    <!-- You can include your JavaScript at the bottom of the body for better performance -->
+    <!-- <script src="script.js"></script> -->
+    <button id="strength">
+        Strength
+    </button>
+    <form id="myForm">
+        <label for="name">number:</label>
+        <input type="text" id="name" name="name">
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="result">This text will be changed.</div>
+    <button id="d4">
+        d4
+    </button>
+    <button id="d6">
+        d6
+    </button>
+    <button id="d8">
+        d8
+    </button>
+    <button id="d10">
+        d10
+    </button>
+    <button id="d12">
+        d12
+    </button>
+    <button id="d20">
+        d20
+    </button>
+    <button id="d100">
+        d100
+    </button>
+
+
+    <div id="d4Result"></div>
+    <div id="d6Result"></div>
+    <div id="d8Result"></div>
+    <div id="d10Result"></div>
+    <div id="d12Result"></div>
+    <div id="d20Result"></div>
+    <div id="d100Result"></div>
+
+    <script>
+        // seperart button for attribute bonus that adds the roll result to the formula wich is (number - 10)/2 
+        // this rounding code test.#characterSheet
+
+        let dicimalNumber = 0.5;
+        let roundNum = Math.floor(dicimalNumber);
+        console.log(roundNum);
+        document.getElementById("d4").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 4) + 1;
+            document.getElementById("d4Result").innerHTML = 'Your d4 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d6").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 6) + 1;
+            document.getElementById("d6Result").innerHTML = 'Your d6 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d8").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 8) + 1;
+            document.getElementById("d8Result").innerHTML = 'Your d8 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d10").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 10) + 1;
+            document.getElementById("d10Result").innerHTML = 'Your d10 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d12").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 12) + 1;
+            document.getElementById("d12Result").innerHTML = 'Your d12 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d20").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 20) + 1;
+            document.getElementById("d20Result").innerHTML = 'Your d20 rolled a ' + diceRoll + '!';
+        });
+        document.getElementById("d100").addEventListener('click', function () {
+            var diceRoll = Math.floor(Math.random() * 100) + 1;
+            document.getElementById("d100Result").innerHTML = 'Your d100 rolled a ' + diceRoll + '!';
+        });
+
+        // Wait for the DOM to be fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the form element
+            var form = document.getElementById("myForm");
+
+            // Attach a submit event listener to the form
+            form.addEventListener("submit", function (event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Get the value from the input field
+                var name = document.getElementById("name").value;
+
+                // Change the text of the div with id "result"
+                document.getElementById("result").textContent = name;
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>
