@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Dice Roll Simulation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .dice {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out; /* Smooth transformation for the rotation */
+        }
+
+        
+        .dice-label {
+            font-size: 0.75em;
+            opacity: 0.8;
+            margin-top: 115px; /* Adjust as necessary for spacing */
+        }
+
+
+        /* Animation keyframes define the start and end styles for the animation. */
+        @keyframes roll {
+            /* Starting point of the animation */
+            from {
+                transform: rotate(0deg);
+            }
+            /* Ending point of the animation */
+            to {
+                transform: rotate(720deg); /* Complete one full rotation */
+            }
+        }
+        .rotate-image {
+    width: 200px; /* Adjust based on your preference */
+    animation: rotation 1s ease-in-out;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+        /* Animation class applies the 'roll' keyframes */
+        .rolling {
+            animation: roll 1s ease-in-out; /* Apply 'roll' animation with a duration of 0.5 seconds */
+        }
+    </style>
+</head>
+<body>
+    <img src="images/d20.jpg" alt="D20" class="rotate-image">
+    <audio id="diceRollSound" src="dice-sound.mp3"></audio>
+    <div id="dice6" class="dice" onclick="rollDice('dice6', 6)">6</div>
+    <div class="dice-label">d6</div>
+    <div id="dice20" class="dice" onclick="rollDice('dice20', 20)" style="background-image: url('images/d20-t.png');">20</div>
+    <div id="dice12" class="dice" onclick="rollDice('dice12', 20)" style="background-image: url('images/d12-t.png');">12</div>
+    <script>
+        function playDiceSound() {
+            const audio = document.getElementById('diceRollSound');
+            audio.currentTime = 0; // Resets the audio to the start
+            audio.play(); // Plays the rolling dice sound
+        }
+
+        function rollDice(diceId, sides) {
+            const dice = document.getElementById(diceId);
+            dice.classList.add('rolling'); // Start the rolling animation
+
+            playDiceSound();
+
+            let interval = setInterval(function() {
+                dice.textContent = Math.floor(Math.random() * sides) + 1; // Update dice text randomly
+            }, 100);
+
+            // End of animation after 0.5 second
+            setTimeout(function() {
+                clearInterval(interval); // Stop the random number generator
+                dice.textContent = Math.floor(Math.random() * sides) + 1; // Settle on a final random number
+                dice.classList.remove('rolling'); // Remove the animation class
+            }, 500);
+        }
+    </script>
+</body>
+</html>

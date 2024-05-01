@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .dice {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #ff0000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out; /* Smooth transformation for the rotation */
+        }
+        main{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+
+        }
+        body {
+            /* Changed from 100vh to auto to accommodate wrapping */
+            min-height: 100vh;
+            /* Ensure it takes at least the height of the viewport */
+            flex-direction: row;
+            /* Changed from column to row */
+            flex-wrap: wrap;
+            /* Allow the items to wrap as needed */
+            /* Add some padding to ensure there's space around the items */
+            gap: 20px;
+            /* Maintain gap between items */
+            background-color: #f0f0f0;
+            background-image: url('images/dice-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+        }
+        .dice-label {
+            font-size: 0.75em;
+            opacity: 0.8;
+            margin-top: 115px; /* Adjust as necessary for spacing */
+        }
+
+
+        /* Animation keyframes define the start and end styles for the animation. */
+        @keyframes roll {
+            /* Starting point of the animation */
+            from {
+                transform: rotate(0deg);
+            }
+            /* Ending point of the animation */
+            to {
+                transform: rotate(720deg); /* Complete one full rotation */
+            }
+        }
+        .rotate-image {
+    width: 200px; /* Adjust based on your preference */
+    animation: rotation 1s ease-in-out;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+        /* Animation class applies the 'roll' keyframes */
+        .rolling {
+            animation: roll 1s ease-in-out; /* Apply 'roll' animation with a duration of 0.5 seconds */
+        }
+    </style>
+    <!-- You can link your CSS files here -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <!-- You can include any scripts here -->
+    <!-- <script src="script.js"></script> -->
+    <title>D&D 5e Spellbook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="index.html">Home</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="spells.html">Spells</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="bonusesV3.html">Bonuses</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </header>
+    <audio id="diceRollSound" src="dice-sound.mp3"></audio>
+    <main>
+        <div id="dice20" class="dice" onclick="rollDice('dice20', 20)" style="background-image: url('images/d20-t.png');">20</div>
+        <div id="dice12" class="dice" onclick="rollDice('dice12', 12)" style="background-image: url('images/d12-t.png');">12</div>
+        <div id="dice10" class="dice" onclick="rollDice('dice10', 10)" style="background-image: url('images/d10-t.png');">10</div>
+        <div id="dice8" class="dice" onclick="rollDice('dice8', 8)" style="background-image: url('images/d8-t.png');">8</div>
+        <div id="dice6" class="dice" onclick="rollDice('dice6', 6)" style="background-image: url('images/d6-t.png');">6</div>
+        <div id="dice4" class="dice" onclick="rollDice('dice4', 4)" style="background-image: url('images/d4-t.png');">4</div>
+    </main>
+    <script>
+        function playDiceSound() {
+            const audio = document.getElementById('diceRollSound');
+            audio.currentTime = 0; // Resets the audio to the start
+            audio.play(); // Plays the rolling dice sound
+        }
+
+        function rollDice(diceId, sides) {
+            const dice = document.getElementById(diceId);
+            dice.classList.add('rolling'); // Start the rolling animation
+
+            playDiceSound();
+
+            let interval = setInterval(function() {
+                dice.textContent = Math.floor(Math.random() * sides) + 1; // Update dice text randomly
+            }, 100);
+
+            // End of animation after 0.5 second
+            setTimeout(function() {
+                clearInterval(interval); // Stop the random number generator
+                dice.textContent = Math.floor(Math.random() * sides) + 1; // Settle on a final random number
+                dice.classList.remove('rolling'); // Remove the animation class
+            }, 500);
+        }
+    </script>
+</body>
+</html>

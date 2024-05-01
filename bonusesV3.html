@@ -7,7 +7,13 @@
     <title>Number Processor and Dice Roller</title>
     <style>
         body {
+          color: whitesmoke;
             font-family: Arial, sans-serif;
+            background-image: url("images/bg.jpg");
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
         .container {
             margin-top: 20px;
@@ -18,34 +24,32 @@
     </style>
 </head>
 
-<header>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="index.html">Home</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="dice.html">Dice</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="spells.html">Spells</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-</header>
 
 <body>
-    <a href="spells.html">Home</a>
-    <a href="dice.html"> Dice roll Page</a>
-    <audio id="diceRollSound" src="dice-sound.mp3"></audio>
+  <header>
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="dice.html">Dice</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="spells.html">Spells</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+  </header>
+  <audio id="diceRollSound" src="dice-sound.mp3"></audio>
     <div class="container">
         <!-- Label input field -->
         <label for="inputLabel">Label:</label>
