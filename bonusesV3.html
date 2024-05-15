@@ -1,109 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number Processor and Dice Roller</title>
-    <style>
-        body {
-          color: whitesmoke;
-            font-family: Arial, sans-serif;
-            background-image: url("images/bg.jpg");
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        .container {
-            margin-top: 20px;
-        }
-        .result {
-            margin-top: 10px;
-        }
-    </style>
-</head>
 
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Processor and Dice Roller</title>
+  <style>
+    .centered-text {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  }
+    .dice {
+      width: 100px;
+      height: 100px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ff0000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      cursor: pointer;
+      transition: transform 0.5s ease-in-out;
+      /* Smooth transformation for the rotation */
+    }
+
+    body {
+      color: whitesmoke;
+      font-family: Arial, sans-serif;
+      background-image: url("images/bg.jpg");
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+    }
+
+    .container {
+      margin-top: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 15px;
+    }
+
+    .result {
+      margin-top: 10px;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 12%;
+      margin: 15px;
+    }
+    
+    .parent {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes roll {
+
+      /* Starting point of the animation */
+      from {
+        transform: rotate(0deg);
+      }
+
+      /* Ending point of the animation */
+      to {
+        transform: rotate(720deg);
+        /* Complete one full rotation */
+      }
+    }
+
+    .rolling {
+      animation: roll 1s ease-in-out;
+      /* Apply 'roll' animation with a duration of 0.5 seconds */
+    }
+  </style>
+</head>
 
 <body>
   <header>
-      <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Home</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="dice.html">Dice</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="spells.html">Spells</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="spells.html">Spells</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="bonusesV3.html">Bonuses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="dice.html">Dice</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
   <audio id="diceRollSound" src="dice-sound.mp3"></audio>
-    <div class="container">
-        <!-- Label input field -->
-        <label for="inputLabel">Label:</label>
-        <input type="text" id="inputLabel" name="inputLabel"><br><br>
+  <div class="parent">
+    <main class="form-container">
+      <h1 class="centered-text">Bonuses</h1>
+        <div class="container form-group w-150">
+          
+          <!-- Label input field -->
+          <h3>Strength</h3>
+          <input type="text" class="form-control" id="inputLabel" name="inputLabel"><br><br>
 
-        <!-- Number input field -->
-        <label for="inputNumber">Number:</label>
-        <input type="number" id="inputNumber" name="inputNumber"><br><br>
+          <!-- Number input field -->
+          <label for="inputNumber" class="form-label">Number:</label>
+          <input type="number" class="form-control" id="inputNumber" name="inputNumber"><br><br>
 
-        <!-- Button to perform the "create modifier" operation -->
-        <button onclick="modifier()">Create Modifier</button>
-        <div id="result" class="result"></div>
+          <!-- Button to perform the "create modifier" operation -->
+          <button onclick="modifier()" class="btn btn-secondary">Create Modifier</button>
+          <div id="result" class="result"></div>
 
-        <!-- Button to roll a 20-sided die -->
-        <button onclick="rollDice()">Roll D20</button>
-        <div id="diceResult" class="result"></div>
+          <!-- Button to roll a 20-sided die -->
+          <!-- <button onclick="rollDice()" class="btn btn-secondary" >Roll D20</button> -->
+          <div id="dice20" class="dice" onclick="rollDice('dice20', 20)"
+            style="background-image: url('images/d20-t.png');">20</div>
+          <div id="diceResult" class="result"></div>
 
-        <!-- Button to calculate the total of the previous two results -->
-        <button onclick="total()">Total</button>
-        <div id="total" class="result"></div>
+          <!-- Button to calculate the total of the previous two results -->
+          <button onclick="total()" class="btn btn-secondary">Total</button>
+          <div id="total" class="result"></div>
+        </div>
 
-    </div>
-<script>
-        // Function to subtract 10 from a number, divide by 2, and round down the result
-
-        function modifier() { 
-            let number = document.getElementById("inputNumber").value;
-            let result = (parseInt(number) - 10)/2;
-            let roundedResult = Math.floor(result);
-
-            document.getElementById("result").innerHTML = "= " + roundedResult;
-        }
-        // Function to roll a 20- sided dice
-        function rollDice(){
-            var audio = new Audio('dice-sound.mp3');
-            var diceRoll = Math.floor(Math.random() * 20) + 1;
-            audio.play();
-            document.getElementById("diceResult").innerHTML = "= " + diceRoll;
-        }
         
-        // function playDiceSound() {
-        //     const audio = document.getElementById('diceRollSound');
-        //     audio.currentTime = 0;
-        //     audio.play();
-        // }
 
-        function total(){
-            let modifierResult = document.getElementById("result").textContent.split('= ')[1];
-            let diceResult = document.getElementById("diceResult").textContent.split("= ")[1];
-            let finalResult = parseInt(modifierResult) + parseInt(diceResult);
-            document.getElementById("total").innerHTML = "= " + finalResult;
-        }
+          <div class="container form-group w-150">
+            
+            <!-- Label input field -->
+            <h3>Dexterity</h3>
+            <input type="text" class="form-control" id="inputLabel" name="inputLabel"><br><br>
+  
+            <!-- Number input field -->
+            <label for="inputNumber" class="form-label">Number:</label>
+            <input type="number" class="form-control" id="inputNumber" name="inputNumber"><br><br>
+  
+            <!-- Button to perform the "create modifier" operation -->
+            <button onclick="modifier()" class="btn btn-secondary">Create Modifier</button>
+            <div id="result" class="result"></div>
+  
+            <!-- Button to roll a 20-sided die -->
+            <!-- <button onclick="rollDice()" class="btn btn-secondary" >Roll D20</button> -->
+            <div id="dice20" class="dice" onclick="rollDice('dice20', 20)"
+              style="background-image: url('images/d20-t.png');">20</div>
+            <div id="diceResult" class="result"></div>
+  
+            <!-- Button to calculate the total of the previous two results -->
+            <button onclick="total()" class="btn btn-secondary">Total</button>
+            <div id="total" class="result"></div>
+          </div>
 
-       
-        
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+          <div class="container form-group w-150">
+            
+            <!-- Label input field -->
+            <h3>Constitiution</h3>
+            <input type="text" class="form-control" id="inputLabel" name="inputLabel"><br><br>
+  
+            <!-- Number input field -->
+            <label for="inputNumber" class="form-label">Number:</label>
+            <input type="number" class="form-control" id="inputNumber" name="inputNumber"><br><br>
+  
+            <!-- Button to perform the "create modifier" operation -->
+            <button onclick="modifier()" class="btn btn-secondary">Create Modifier</button>
+            <div id="result" class="result"></div>
+  
+            <!-- Button to roll a 20-sided die -->
+            <!-- <button onclick="rollDice()" class="btn btn-secondary" >Roll D20</button> -->
+            <div id="dice20" class="dice" onclick="rollDice('dice20', 20)"
+              style="background-image: url('images/d20-t.png');">20</div>
+            <div id="diceResult" class="result"></div>
+  
+            <!-- Button to calculate the total of the previous two results -->
+            <button onclick="total()" class="btn btn-secondary">Total</button>
+            <div id="total" class="result"></div>
+          </div>
+    </main>
+  </div>
+
+  </div>
+  <script>
+    // Function to subtract 10 from a number, divide by 2, and round down the result
+
+    function modifier() {
+      let number = document.getElementById("inputNumber").value;
+      let result = (parseInt(number) - 10) / 2;
+      let roundedResult = Math.floor(result);
+
+      document.getElementById("result").innerHTML = "= " + roundedResult;
+    }
+    // Function to roll a 20- sided dice
+    function rollDice(diceId, sides) {
+      const dice = document.getElementById(diceId);
+      var audio = new Audio('dice-sound.mp3');
+      var diceRoll = Math.floor(Math.random() * sides) + 1;
+      audio.play();
+      document.getElementById("diceResult").innerHTML = "= " + diceRoll;
+      dice.classList.add('rolling'); // Start the rolling animation
+
+      let interval = setInterval(function () {
+        dice.textContent = diceRoll // Update dice text randomly
+      }, 100);
+
+      // End of animation after 0.5 second
+      setTimeout(function () {
+        clearInterval(interval); // Stop the random number generator
+        dice.textContent = diceRoll // Settle on a final random number
+        dice.classList.remove('rolling'); // Remove the animation class
+      }, 500);
+    }
+
+    // function playDiceSound() {
+    //     const audio = document.getElementById('diceRollSound');
+    //     audio.currentTime = 0;
+    //     audio.play();
+    // }
+
+    function total() {
+      let modifierResult = document.getElementById("result").textContent.split('= ')[1];
+      let diceResult = document.getElementById("diceResult").textContent.split("= ")[1];
+      let finalResult = parseInt(modifierResult) + parseInt(diceResult);
+      document.getElementById("total").innerHTML = "= " + finalResult;
+    }
+    function playDiceSound() {
+      const audio = document.getElementById('diceRollSound');
+      audio.currentTime = 0; // Resets the audio to the start
+      audio.play(); // Plays the rolling dice sound
+    }
+
+    // function rollDice(diceId, sides) {
+    //     const dice = document.getElementById(diceId);
+    //     dice.classList.add('rolling'); // Start the rolling animation
+
+    // playDiceSound();
+
+
+
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
